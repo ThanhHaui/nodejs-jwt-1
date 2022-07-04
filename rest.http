@@ -1,0 +1,38 @@
+### Register
+POST http://localhost:3000/user/register
+Content-Type: application/json
+
+{
+    "email": "ThanhTB170@gmail.com",
+    "password": "12345Abc"
+}
+
+### Login
+POST http://localhost:3000/user/login
+Content-Type: application/json
+
+{
+    "email": "ThanhTB170@gmail.com",
+    "password": "12345Abc"
+}
+
+### Refresh token
+POST http://localhost:3000/user/refresh-token
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmMxMWJhNTcxOTYzNGYzNGRkN2U4MjIiLCJpYXQiOjE2NTY4Mzg4NzIsImV4cCI6MTY4ODM5NjQ3Mn0.tO327DIFjTnkntTUfUHIkvov9QFD-15c3DDz59eWyV8"
+}
+
+### Logout
+DELETE http://localhost:3000/user/logout
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmMxMWJhNTcxOTYzNGYzNGRkN2U4MjIiLCJpYXQiOjE2NTY4Mzg4NzIsImV4cCI6MTY4ODM5NjQ3Mn0.tO327DIFjTnkntTUfUHIkvov9QFD-15c3DDz59eWyV8"
+}
+
+
+### Get list of users
+GET http://localhost:3000/user/list
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmMxMWJhNTcxOTYzNGYzNGRkN2U4MjIiLCJpYXQiOjE2NTY4NDA0NzIsImV4cCI6MTY1Njg0MDUzMn0.umC_8P8UC-I7ba-c1Wu2gFjf9D-echoZ72uVGiz2yp0
