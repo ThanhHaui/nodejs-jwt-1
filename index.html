@@ -46,7 +46,7 @@
         }, err => {
             return Promise.reject(err)
         })
-        let refreshTokenPromise //this holds any in-progress token refresh requests
+        
         //xu ly data sau khi response
         instance.interceptors.response.use( async (response) => {
             console.log(`truoc khi nhan response:::`);
