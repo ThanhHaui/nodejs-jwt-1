@@ -12,17 +12,18 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/user", UserRouter);
 
-app.get('/', function(req, res, next) {
-    res.sendFile(__dirname + '/index.html')
-})
+app.get("/", function (req, res, next) {
+    res.sendFile(__dirname + "/index.html");
+});
 
 app.use((req, res, next) => {
     next(createErr.NotFound("This route does not exist"));
 });
 
 app.use((err, req, res, next) => {
-    res.json({
-        status: err.status || 500,
+    const statusCode = err.status || 500;
+    res.status(statusCode).json({
+        status: statusCode,
         message: err.message || "Something went wrong",
     });
 });
