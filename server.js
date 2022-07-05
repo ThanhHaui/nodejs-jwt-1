@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
     const statusCode = err.status || 500;
-    res.status(statusCode).json({
+    res.json({
         status: statusCode,
         message: err.message || "Something went wrong",
     });

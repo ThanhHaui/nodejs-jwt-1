@@ -48,48 +48,30 @@
         })
         let refreshTokenPromise //this holds any in-progress token refresh requests
         //xu ly data sau khi response
-        instance.interceptors.response.use( (response) => {
+        instance.interceptors.response.use( async (response) => {
             console.log(`truoc khi nhan response:::`);
             /* C2: check token expired ở server */
-            // if(response.config.url.indexOf('/login') >= 0 || response.config.url.indexOf('/refresh-token') >= 0) {
-            //     return response;
-            // }
-            // if(response.data.status === 401) {
-            //     try {
-            //         console.log('AcessToken expired');
-            //         let {success, data: {access_token, refresh_token, time_expired}} = await refreshToken()
-            //         if(success) {
-            //             await instance.setLocalAccessToken({access_token, refresh_token, time_expired})
-            //             const config = response.config
-            //             config.headers['Authorization'] = `Bearer ${access_token}`
-            //             return instance(config);
-            //         }
+            if(response.config.url.indexOf('/login') >= 0 || response.config.url.indexOf('/refresh-token') >= 0) {
+                return response;
+            }
+            if(response.data.status === 401) {
+                try {
+                    console.log('AcessToken expired');
+                    let {success, data: {access_token, refresh_token, time_expired}} = await refreshToken()
+                    if(success) {
+                        await instance.setLocalAccessToken({access_token, refresh_token, time_expired})
+                        const config = response.config
+                        config.headers['Authorization'] = `Bearer ${access_token}`
+                        return instance(config);
+                    }
 
-            //     } catch (error) {
-            //         return Promise.reject(error);
-            //     }
-            // }
+                } catch (error) {
+                    return Promise.reject(error);
+                }
+            }
             return response;
         }, async (error) => {
-            if (error.config && error.response && error.response.status === 401) {
-                console.log('Error:::AcessToken expired');
-                if (!refreshTokenPromise) { // check for an existing in-progress request
-                    // if nothing is in-progress, start a new refresh token request
-                    refreshTokenPromise = refreshToken().then(token => {
-                        refreshTokenPromise = null // clear state
-                        return token
-                    })
-                }
-
-                let {success, data: {access_token, refresh_token, time_expired}} = await refreshTokenPromise
-                if(success) {
-                    error.config.headers['Authorization'] = `Bearer ${access_token}`
-                    await instance.setLocalAccessToken({access_token, refresh_token, time_expired})
-                    return instance(error.config)
-                }
-                
-                return Promise.reject(error)
-            }
+            return Promise.reject(error)
         })
 
         //FUNCTION

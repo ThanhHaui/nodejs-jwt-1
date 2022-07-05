@@ -31,7 +31,6 @@ const verifyToken = async (req, res, next) => {
         req.payload = token;
         return next();
     } catch (err) {
-        console.log("err:::", err);
         if (err.name === "TokenExpiredError")
             return next(createError.Unauthorized(err.message));
         return next(createError.InternalServerError());
